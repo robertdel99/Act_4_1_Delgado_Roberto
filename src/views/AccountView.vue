@@ -20,13 +20,13 @@
         <section class="panel">
           <h2 class="panel__title">Tu cuenta</h2>
           <p class="panel__subtitle">
-            Aquí podrías ver y editar algunos datos básicos del profesor.
+            Aquí podrías ver y editar algunos datos básicos del alumno.
           </p>
 
           <div class="panel__form">
             <p class="panel__info">Nombre: User Name</p>
-            <p class="panel__info">Correo: profesor@ejemplo.com</p>
-            <p class="panel__info">Rol: Tutor académico</p>
+            <p class="panel__info">Correo: alumno@ejemplo.com</p>
+            <p class="panel__info">Rol:  Alumno</p>
           </div>
         </section>
       </main>

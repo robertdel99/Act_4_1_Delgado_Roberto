@@ -35,34 +35,87 @@
           <p class="panel__subtitle">Selecciona una materia para agendar tu cita.</p>
 
           <div class="panel__form">
-            <label class="panel__label">Selecciona una materia:</label>
-            <AppSelect
-              :options="materias"
-              v-model="materiaSeleccionada"
-            />
+            <!-- PASO 1: materia y grupo -->
+            <div v-if="paso === 1">
+              <label class="panel__label">Selecciona una materia:</label>
+              <AppSelect
+                :options="materias"
+                v-model="materiaSeleccionada"
+              />
 
-            <p class="panel__info" v-if="materiaSeleccionada">
-              Seleccionaste: <strong>{{ materiaSeleccionada }}</strong>
-            </p>
+              <p class="panel__info" v-if="materiaSeleccionada">
+                Seleccionaste: <strong>{{ materiaSeleccionada }}</strong>
+              </p>
 
-            <label class="panel__label">Selecciona un grupo:</label>
-            <AppSelect
-              :options="grupos"
-              v-model="grupoSeleccionado"
-            />
+              <label class="panel__label">Selecciona un grupo:</label>
+              <AppSelect
+                :options="grupos"
+                v-model="grupoSeleccionado"
+              />
 
-            <p class="panel__info" v-if="grupoSeleccionado">
-              Grupo seleccionado: <strong>{{ grupoSeleccionado }}</strong>
-            </p>
+              <p class="panel__info" v-if="grupoSeleccionado">
+                Grupo seleccionado: <strong>{{ grupoSeleccionado }}</strong>
+              </p>
 
-            <AppButton
-              full
-              :disabled="!puedeAgendar"
-              @click="agendarCita"
-              class="panel__button"
-            >
-              Agendar cita
-            </AppButton>
+              <AppButton
+                full
+                :disabled="!puedePasarPaso1"
+                @click="irAHorarios"
+                class="panel__button"
+              >
+                Continuar
+              </AppButton>
+            </div>
+
+            <!-- PASO 2: horarios disponibles -->
+            <div v-else-if="paso === 2">
+              <h3 class="panel__step-title">Horarios disponibles</h3>
+
+              <p class="panel__info">
+                Tutor asignado: <strong>{{ tutorAsignado }}</strong>
+              </p>
+
+              <label class="panel__label">Selecciona un horario:</label>
+              <select v-model="horarioSeleccionado" class="panel__select">
+                <option value="" disabled>Selecciona un horario</option>
+                <option v-for="(h, i) in horariosDisponibles" :key="i">
+                  {{ h }}
+                </option>
+              </select>
+
+              <AppButton
+                full
+                :disabled="!horarioSeleccionado"
+                @click="confirmarCita"
+                class="panel__button"
+              >
+                Agendar cita
+              </AppButton>
+
+              <AppButton
+                full
+                class="panel__button panel__button--secondary"
+                @click="volverPaso1"
+              >
+                Volver
+              </AppButton>
+            </div>
+
+            <!-- PASO 3: confirmación -->
+            <div v-else-if="paso === 3">
+              <h3 class="panel__step-title">Cita agendada</h3>
+
+              <p class="panel__info">
+                Tu cita quedó registrada para
+                <strong>{{ materiaSeleccionada }}</strong>,
+                {{ grupoSeleccionado }},
+                a las <strong>{{ horarioSeleccionado }}</strong>.
+              </p>
+
+              <p class="panel__info">
+                Tutor asignado: <strong>{{ tutorAsignado }}</strong>
+              </p>
+            </div>
 
             <p class="panel__mensaje" v-if="mensaje">
               {{ mensaje }}
@@ -85,18 +138,55 @@ const grupos = ["Grupo A", "Grupo B", "Grupo C"]
 
 const materiaSeleccionada = ref("")
 const grupoSeleccionado = ref("")
+const horarioSeleccionado = ref("")
 const mensaje = ref("")
+const paso = ref(1)
 
-const puedeAgendar = computed(() =>
+const horariosDisponibles = [
+  "09:00",
+  "10:30",
+  "12:00",
+  "14:00",
+  "16:00"
+]
+
+const tutoresPorMateria = {
+  "Cálculo": "Dra. Ramírez",
+  "Álgebra": "Mtro. Sandoval",
+  "Programación": "Ing. Morales",
+  "Bases de datos": "Ing. Ortega"
+}
+
+const tutorAsignado = ref("")
+
+const puedePasarPaso1 = computed(() =>
   materiaSeleccionada.value && grupoSeleccionado.value
 )
 
-function agendarCita() {
-  if (!puedeAgendar.value) {
-    mensaje.value = "Selecciona materia y grupo antes de agendar."
+function irAHorarios() {
+  if (!puedePasarPaso1.value) {
+    mensaje.value = "Selecciona materia y grupo antes de continuar."
     return
   }
-  mensaje.value = `Cita agendada para ${materiaSeleccionada.value}, ${grupoSeleccionado.value}.`
+  mensaje.value = ""
+  tutorAsignado.value =
+    tutoresPorMateria[materiaSeleccionada.value] || "Tutor por asignar"
+  paso.value = 2
+}
+
+function confirmarCita() {
+  if (!horarioSeleccionado.value) {
+    mensaje.value = "Selecciona un horario para agendar la cita."
+    return
+  }
+  mensaje.value = ""
+  paso.value = 3
+}
+
+function volverPaso1() {
+  paso.value = 1
+  horarioSeleccionado.value = ""
+  mensaje.value = ""
 }
 </script>
 
@@ -107,6 +197,15 @@ function agendarCita() {
   background: #f3f4f6;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+.content {
+  display: block !important;
+}
+
+.panel {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
 
 /* SIDEBAR */
 .sidebar {
@@ -173,9 +272,7 @@ function agendarCita() {
 .content {
   flex: 1;
   padding: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: block;        /* ← importante */
 }
 
 /* PANEL CENTRAL */
@@ -184,7 +281,7 @@ function agendarCita() {
   border-radius: 12px;
   padding: 2rem;
   width: 100%;
-  max-width: 720px;
+  max-width: 900px;
   min-height: 420px;
   display: flex;
   flex-direction: column;
@@ -194,11 +291,12 @@ function agendarCita() {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: #000;
 }
 
 .panel__subtitle {
   font-size: 0.95rem;
-  color: #4b5563;
+  color: #000000ff;
   margin-bottom: 1.5rem;
 }
 
@@ -208,23 +306,52 @@ function agendarCita() {
   padding: 1.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   max-width: 340px;
+  color: #000;
 }
 
 .panel__label {
   font-size: 0.9rem;
   margin-bottom: 0.4rem;
   display: block;
+  color: #000;
 }
 
 .panel__info {
   font-size: 0.85rem;
   margin: 0.4rem 0 0.8rem;
-  color: #4b5563;
+  color: #060708ff;
 }
 
 .panel__mensaje {
   margin-top: 0.8rem;
   font-size: 0.85rem;
   color: #16a34a;
+}
+
+.panel__step-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.panel__label {
+  color: #000;
+}
+
+.panel__select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #111213ff;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.panel__button {
+  margin-top: 0.5rem;
+}
+
+.panel__button--secondary {
+  background: #e5e7eb;
+  color: #000000ff;
 }
 </style>
