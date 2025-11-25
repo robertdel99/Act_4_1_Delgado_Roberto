@@ -1,15 +1,40 @@
 <template>
   <div class="layout">
-    <aside class="layout__sidebar">
-      <div class="logo">Dashboard</div>
+    <aside class="sidebar">
+      <nav class="sidebar__nav">
 
-      <nav class="menu">
-        <a href="#" class="menu__item menu__item--active">
+        <RouterLink
+          to="/dashboard"
+          class="sidebar__link"
+          :class="{ 'sidebar__link--active': $route.path === '/dashboard' }"
+        >
           Dashboard
-        </a>
-        <a href="#" class="menu__item">Account</a>
-        <a href="#" class="menu__item">Chats</a>
-        <a href="#" class="menu__item">Settings</a>
+        </RouterLink>
+
+        <RouterLink
+          to="/account"
+          class="sidebar__link"
+          :class="{ 'sidebar__link--active': $route.path === '/account' }"
+        >
+          Account
+        </RouterLink>
+
+        <RouterLink
+          to="/chats"
+          class="sidebar__link"
+          :class="{ 'sidebar__link--active': $route.path === '/chats' }"
+        >
+          Chats
+        </RouterLink>
+
+        <RouterLink
+          to="/settings"
+          class="sidebar__link"
+          :class="{ 'sidebar__link--active': $route.path === '/settings' }"
+        >
+          Settings
+        </RouterLink>
+
       </nav>
     </aside>
 
@@ -36,24 +61,20 @@
   background: #f3f4f6;
 }
 
-.layout__sidebar {
-  background: #f4f5f7;
+/* Sidebar */
+.sidebar {
+  background: #ffffff;
   border-right: 1px solid #e5e7eb;
   padding: 1rem;
 }
 
-.logo {
-  font-weight: 700;
-  margin-bottom: 2rem;
-}
-
-.menu {
+.sidebar__nav {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.menu__item {
+.sidebar__link {
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
   text-decoration: none;
@@ -61,15 +82,15 @@
   font-size: 0.95rem;
 }
 
-.menu__item--active {
+.sidebar__link--active {
   background: #2563eb;
   color: #ffffff;
 }
 
+/* Main */
 .layout__main {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 .layout__topbar {

@@ -1,116 +1,112 @@
-<!-- src/views/LoginView.vue -->
-<template>
-  <div class="login-page">
-    <div class="login-card">
-      <h1 class="login-title">SISTEMA DE TUTORIAS UASLP</h1>
-
-      <form class="login-form" @submit.prevent="goToDashboard">
-        <div class="login-field">
-          <input
-            type="email"
-            placeholder="CORREO ELECTRÓNICO"
-            required
-          />
-        </div>
-
-        <div class="login-field">
-          <input
-            type="password"
-            placeholder="CONTRASEÑA"
-            required
-          />
-        </div>
-
-        <button type="submit" class="login-button">
-          INICIAR SESIÓN
-        </button>
-
-        <a href="#" class="login-link">
-          ¿Olvidaste tu contraseña?
-        </a>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { useRouter } from 'vue-router'
+import { ref } from "vue"
+import { useRouter } from "vue-router"
+import AppInput from "../components/AppInput.vue"
+import AppButton from "../components/AppButton.vue"
 
 const router = useRouter()
 
-function goToDashboard() {
-  router.push('/dashboard')
+const email = ref("")
+const password = ref("")
+const error = ref("")
+
+const onSubmit = () => {
+  if (!email.value || !password.value) {
+    error.value = "Ingresa tu correo y contraseña."
+    return
+  }
+
+  error.value = ""
+  router.push("/dashboard")
 }
 </script>
 
+<template>
+  <main class="login">
+    <section class="login__card">
+      <h1 class="login__title">SISTEMA DE TUTORIAS UASLP</h1>
+      <h2 class="login__subtitle">INICIAR SESIÓN</h2>
+
+      <form class="login__form" @submit.prevent="onSubmit">
+        <AppInput
+          v-model="email"
+          type="email"
+          label="Correo electrónico"
+          placeholder="correo@ejemplo.com"
+        />
+
+        <AppInput
+          v-model="password"
+          type="password"
+          label="Contraseña"
+          placeholder="••••••••"
+        />
+
+        <AppButton type="submit" full>
+          Iniciar sesión
+        </AppButton>
+
+        <p v-if="error" class="login__error">
+          {{ error }}
+        </p>
+
+        <button type="button" class="login__link">
+          ¿Olvidaste tu contraseña?
+        </button>
+      </form>
+    </section>
+  </main>
+</template>
+
 <style scoped>
-.login-page {
+.login {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f5f5;
 }
 
-.login-card {
-  background: #ffffff;
-  width: 360px;
-  padding: 2.5rem 2rem;
+.login__card {
+  width: 100%;
+  max-width: 420px;
+  background: #f9fafb;
+  padding: 2rem 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.login__title {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
   text-align: center;
+  margin-bottom: 0.75rem;
 }
 
-.login-title {
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  font-weight: 600;
-  color: #555;
-  margin-bottom: 2rem;
+.login__subtitle {
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-.login-form {
+.login__form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.login-field input {
-  width: 100%;
-  padding: 0.75rem 0.9rem;
-  border-radius: 6px;
-  border: 1px solid #d0d7e2;
-  font-size: 0.85rem;
-  outline: none;
+.login__error {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: #dc2626;
 }
 
-.login-field input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
-}
-
-.login-button {
-  margin-top: 0.5rem;
-  width: 100%;
-  padding: 0.8rem;
-  border-radius: 6px;
-  border: none;
-  background: #2563eb;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.login-button:hover {
-  background: #1d4ed8;
-}
-
-.login-link {
-  display: block;
+.login__link {
   margin-top: 0.75rem;
   font-size: 0.8rem;
+  text-align: center;
+  background: none;
+  border: none;
   color: #2563eb;
-  text-decoration: none;
+  cursor: pointer;
 }
 </style>

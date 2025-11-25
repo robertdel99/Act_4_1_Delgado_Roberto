@@ -5,10 +5,18 @@
     <aside class="sidebar">
       <div class="sidebar__logo">🏫</div>
       <nav class="sidebar__nav">
-        <a href="#" class="sidebar__link sidebar__link--active">Dashboard</a>
-        <a href="#" class="sidebar__link">Account</a>
-        <a href="#" class="sidebar__link">Chats</a>
-        <a href="#" class="sidebar__link">Settings</a>
+        <RouterLink to="/dashboard" class="sidebar__link" active-class="sidebar__link--active">
+          Dashboard
+        </RouterLink>
+        <RouterLink to="/account" class="sidebar__link" active-class="sidebar__link--active">
+          Account
+        </RouterLink>
+        <RouterLink to="/chats" class="sidebar__link" active-class="sidebar__link--active">
+          Chats
+        </RouterLink>
+        <RouterLink to="/settings" class="sidebar__link" active-class="sidebar__link--active">
+          Settings
+        </RouterLink>
       </nav>
     </aside>
 
@@ -47,9 +55,14 @@
               Grupo seleccionado: <strong>{{ grupoSeleccionado }}</strong>
             </p>
 
-            <button class="panel__button" @click="agendarCita">
+            <AppButton
+              full
+              :disabled="!puedeAgendar"
+              @click="agendarCita"
+              class="panel__button"
+            >
               Agendar cita
-            </button>
+            </AppButton>
 
             <p class="panel__mensaje" v-if="mensaje">
               {{ mensaje }}
@@ -62,22 +75,28 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import AppSelect from "../components/AppSelect.vue";
+import { ref, computed } from "vue"
+import { RouterLink } from "vue-router"
+import AppSelect from "../components/AppSelect.vue"
+import AppButton from "../components/AppButton.vue"
 
-const materias = ["Cálculo", "Álgebra", "Programación", "Bases de datos"];
-const grupos = ["Grupo A", "Grupo B", "Grupo C"];
+const materias = ["Cálculo", "Álgebra", "Programación", "Bases de datos"]
+const grupos = ["Grupo A", "Grupo B", "Grupo C"]
 
-const materiaSeleccionada = ref("");
-const grupoSeleccionado = ref("");
-const mensaje = ref("");
+const materiaSeleccionada = ref("")
+const grupoSeleccionado = ref("")
+const mensaje = ref("")
+
+const puedeAgendar = computed(() =>
+  materiaSeleccionada.value && grupoSeleccionado.value
+)
 
 function agendarCita() {
-  if (!materiaSeleccionada.value || !grupoSeleccionado.value) {
-    mensaje.value = "Selecciona materia y grupo antes de agendar.";
-    return;
+  if (!puedeAgendar.value) {
+    mensaje.value = "Selecciona materia y grupo antes de agendar."
+    return
   }
-  mensaje.value = `Cita agendada para ${materiaSeleccionada.value}, ${grupoSeleccionado.value}.`;
+  mensaje.value = `Cita agendada para ${materiaSeleccionada.value}, ${grupoSeleccionado.value}.`
 }
 </script>
 
@@ -119,8 +138,8 @@ function agendarCita() {
 }
 
 .sidebar__link--active {
-  background: #2563eb;
-  color: #ffffff;
+  background: #2563eb !important;
+  color: #ffffff !important;
 }
 
 /* MAIN AREA */
@@ -201,23 +220,6 @@ function agendarCita() {
   font-size: 0.85rem;
   margin: 0.4rem 0 0.8rem;
   color: #4b5563;
-}
-
-.panel__button {
-  margin-top: 0.5rem;
-  width: 100%;
-  padding: 0.6rem 1rem;
-  border-radius: 6px;
-  border: none;
-  background: #2563eb;
-  color: #ffffff;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-
-.panel__button:hover {
-  background: #1d4ed8;
 }
 
 .panel__mensaje {
