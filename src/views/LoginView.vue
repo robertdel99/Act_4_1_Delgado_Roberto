@@ -39,7 +39,6 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 function goToDashboard() {
-  // Aquí no validamos nada, solo navegamos al dashboard
   router.push('/dashboard')
 }
 </script>
