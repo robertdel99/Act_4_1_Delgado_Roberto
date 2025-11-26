@@ -22,3 +22,68 @@ a,
   }
 }
 
+/* ============================
+   RESPONSIVE GENERAL
+============================ */
+
+/* Tablet / pantallas medianas */
+@media (max-width: 1024px) {
+  .panel {
+    max-width: 100%;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+}
+
+/* Móviles (casi todos) */
+@media (max-width: 768px) {
+
+  /* Layout */
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  /* Panel */
+  .panel {
+    padding: 1.25rem;
+    min-height: auto;
+    max-width: 100%;
+  }
+
+  /* Formularios del dashboard */
+  .panel__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .panel,
+  .login__card {
+    padding: 1rem;
+  }
+
+  .panel__title,
+  .login__title {
+    font-size: 1.1rem;
+  }
+}

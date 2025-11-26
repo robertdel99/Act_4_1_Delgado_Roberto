@@ -176,3 +176,28 @@ Este es el final de la ruta roja, donde el Figma mostraba que el usuario debía 
 
 En el diseño se veía que después de agendar la cita el alumno debía poder consultar lo que ya había registrado.
 Esto lo implementé en la tabla del historial que aparece hasta abajo del Dashboard.
+
+src/
+ ├── assets/
+ ├── components/
+ │     ├── AppButton.vue
+ │     ├── AppInput.vue
+ │     ├── AppSelect.vue
+ │     ├── AppCard.vue
+ │     └── StepIndicator.vue
+ ├── layout/
+ │     └── AppLayout.vue
+ ├── views/
+ │     ├── LoginView.vue
+ │     ├── DashboardView.vue
+ │     ├── AccountView.vue
+ │     ├── ChatsView.vue
+ │     └── SettingsView.vue
+ └── router/
+       └── index.js
+
+
+¿Qué aprendí?
+
+Con este proyecto entendí mucho mejor cómo dividir una interfaz en componentes reutilizables. También aprendí a usar props, eventos, layouts y rutas de Vue 3 de una manera más práctica, no solo teórica. Me ayudó bastante a entender cómo convertir un diseño estático de Figma en pantallas reales y cómo organizar el código para que sea fácil de mantener.
+

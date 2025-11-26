@@ -109,4 +109,29 @@
   flex: 1;
   padding: 2rem;
 }
+
+/* ============================
+   RESPONSIVE PARA MÓVIL
+============================ */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;      /* Sidebar arriba, contenido abajo */
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+    gap: 0.25rem;
+    overflow-x: auto;
+  }
+
+  .layout__content {
+    padding: 1rem;
+  }
+}
 </style>

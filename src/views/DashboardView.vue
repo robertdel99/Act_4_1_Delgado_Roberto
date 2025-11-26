@@ -390,6 +390,15 @@ function nuevaCita() {
   color: #000000;
 }
 
+@media (max-width: 768px) {
+  .panel {
+    max-width: 100%;
+    padding: 1.25rem;
+    min-height: auto;
+  }
+}
+
+
 /* PANEL CENTRAL */
 .panel {
   background: #e5e7eb;
