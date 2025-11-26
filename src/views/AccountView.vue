@@ -1,151 +1,134 @@
+<!-- src/views/AccountView.vue -->
 <template>
-  <div class="dashboard">
-    <aside class="sidebar">
-      <div class="sidebar__logo">🏫</div>
-      <nav class="sidebar__nav">
-        <router-link to="/dashboard" class="sidebar__link">Dashboard</router-link>
-        <router-link to="/account" class="sidebar__link sidebar__link--active">Account</router-link>
-        <router-link to="/chats" class="sidebar__link">Chats</router-link>
-        <router-link to="/settings" class="sidebar__link">Settings</router-link>
-      </nav>
-    </aside>
+  <AppLayout>
+    <div class="content">
+      <section class="panel">
+        <h2 class="panel__title">Tu cuenta</h2>
+        <p class="panel__subtitle">
+          Aquí puedes consultar algunos datos básicos del alumno dentro del sistema de tutorías.
+        </p>
 
-    <div class="main">
-      <header class="topbar">
-        <div class="topbar__title">Account</div>
-        <div class="topbar__user">Bienvenido User Name</div>
-      </header>
+        <div class="panel__grid">
+          <!-- Bloque: datos principales -->
+          <div class="panel__block">
+            <h3 class="panel__section-title">Datos del alumno</h3>
 
-      <main class="content">
-        <section class="panel">
-          <h2 class="panel__title">Tu cuenta</h2>
-          <p class="panel__subtitle">
-            Aquí podrías ver y editar algunos datos básicos del alumno.
-          </p>
-
-          <div class="panel__form">
-            <p class="panel__info">Nombre: User Name</p>
-            <p class="panel__info">Correo: alumno@ejemplo.com</p>
-            <p class="panel__info">Rol:  Alumno</p>
+            <p class="panel__info"><strong>Nombre:</strong> User Name</p>
+            <p class="panel__info"><strong>Correo:</strong> alumno@ejemplo.com</p>
+            <p class="panel__info"><strong>Rol:</strong> Alumno</p>
+            <p class="panel__info"><strong>Matrícula:</strong> 1900000</p>
+            <p class="panel__info"><strong>Programa:</strong> Ingeniería en Sistemas Inteligentes</p>
           </div>
-        </section>
-      </main>
+
+          <!-- Bloque: resumen de uso del sistema -->
+          <div class="panel__block panel__block--muted">
+            <h3 class="panel__section-title">Resumen de actividad</h3>
+            <p class="panel__info">
+              Este módulo podría mostrar en el futuro información como:
+            </p>
+            <ul class="panel__list">
+              <li>Última fecha de acceso al sistema.</li>
+              <li>Número de tutorías agendadas.</li>
+              <li>Estado general del perfil del alumno.</li>
+            </ul>
+            <p class="panel__info">
+              Por ahora solo funciona como vista estática para ejemplificar el diseño del Dashboard.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
+  </AppLayout>
 </template>
 
 <script setup>
+import AppLayout from "../layout/AppLayout.vue"
 </script>
 
 <style scoped>
-.dashboard {
-  display: flex;
-  height: 100vh;
-  background: #f3f4f6;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-.sidebar {
-  width: 220px;
-  background: #ffffff;
-  border-right: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-}
-
-.sidebar__logo {
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-}
-
-.sidebar__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.sidebar__link {
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #4b5563;
-  text-decoration: none;
-}
-
-.sidebar__link.router-link-active,
-.sidebar__link--active {
-  background: #2563eb;
-  color: #ffffff;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.topbar {
-  height: 56px;
-  background: #2563eb;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  font-size: 0.95rem;
-}
-
-.topbar__title {
-  font-weight: 600;
-}
-
-.topbar__user {
-  font-weight: 500;
-}
-
 .content {
   flex: 1;
   padding: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  color: #000000;
 }
 
+/* PANEL PRINCIPAL */
 .panel {
   background: #e5e7eb;
   border-radius: 12px;
   padding: 2rem;
   width: 100%;
-  max-width: 720px;
-  min-height: 420px;
+  max-width: 960px;
+  min-height: 360px;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .panel__title {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: #000000;
 }
 
 .panel__subtitle {
   font-size: 0.95rem;
-  color: #4b5563;
+  color: #000000;
   margin-bottom: 1.5rem;
 }
 
-.panel__form {
+/* GRID INTERNO */
+.panel__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+
+.panel__block {
   background: #f9fafb;
   border-radius: 10px;
   padding: 1.5rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-width: 340px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  color: #000000;
+}
+
+.panel__block--muted {
+  background: #f3f4f6;
+}
+
+.panel__section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #000000;
 }
 
 .panel__info {
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: #4b5563;
+  margin-bottom: 0.4rem;
+  color: #000000;
+}
+
+.panel__list {
+  margin-left: 1.2rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  color: #000000;
+}
+
+.panel__list li {
+  margin-bottom: 0.25rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .panel__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 1.5rem;
+  }
 }
 </style>
